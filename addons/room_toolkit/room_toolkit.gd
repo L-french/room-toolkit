@@ -14,10 +14,10 @@ func _disable_plugin() -> void:
 
 func _enter_tree() -> void:
 	# Initialization of the plugin goes here.
-	add_custom_type("Room", "Node2D", preload("room.gd"), preload("icon.svg"))
-	add_custom_type("BoundedCamera", "Camera2D", preload("bounded_camera.gd"), preload("icon.svg"))
-	add_custom_type("CameraBoundary", "Area2D", preload("camera_boundary.gd"), preload("icon.svg"))
-	add_custom_type("LoadingDoor", "Area2D", preload("loading_door.gd"), preload("icon.svg"))
+	add_custom_type("Room", "Node2D", preload("room.gd"), preload("Room.svg"))
+	add_custom_type("BoundedCamera", "Camera2D", preload("bounded_camera.gd"), preload("BoundedCamera.svg"))
+	add_custom_type("CameraBoundary", "Area2D", preload("camera_boundary.gd"), preload("CameraBoundary.svg"))
+	add_custom_type("LoadingDoor", "Area2D", preload("loading_door.gd"), preload("LoadingDoor.svg"))
 
 
 func _exit_tree() -> void:
