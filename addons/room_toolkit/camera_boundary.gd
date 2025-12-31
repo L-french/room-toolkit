@@ -1,5 +1,14 @@
 class_name CameraBoundary
 extends Area2D
+## Dynamically limits camera movement when a [BoundedCamera]'s target is detected within.
+##
+## When a [CameraBoundary] is smaller than the [Viewport] in either the x or y axes,
+## the camera will instead center on the [CameraBoundary] in that axis.
+##
+## The target should have an [Area2D] attached for detection to work properly. 
+##
+## For now, a [CameraBoundary] expects its collision shape to be an axis-aligned rectangle. 
+## Other shapes can be used for detection, but the resulting camera limits will be rectangular.
 
 signal boundary_transitioned()
 

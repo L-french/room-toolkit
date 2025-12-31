@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhkqt26jm2hig"]
+
+[ext_resource type="PackedScene" uid="uid://bokqedqsxumth" path="res://demo/room_1.tscn" id="1_d6po2"]
+[ext_resource type="PackedScene" uid="uid://6j1g0pno7srk" path="res://demo/player.tscn" id="2_ytiva"]
+[ext_resource type="Script" uid="uid://cass1sm0wxd2c" path="res://addons/room_toolkit/bounded_camera.gd" id="3_dar0o"]
+
+[node name="World" type="Node2D"]
+
+[node name="Room" parent="." instance=ExtResource("1_d6po2")]
+
+[node name="Player" parent="." instance=ExtResource("2_ytiva")]
+position = Vector2(20, -295)
+
+[node name="BoundedCamera" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+position = Vector2(-269, -387)
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+script = ExtResource("3_dar0o")
+target = NodePath("../Player")
+metadata/_custom_type_script = "uid://cass1sm0wxd2c"

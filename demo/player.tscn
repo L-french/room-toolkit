@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://6j1g0pno7srk"]
+
+[ext_resource type="Script" uid="uid://bpty8u4hbwsy1" path="res://demo/player.gd" id="1_4flbx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sh265"]
+size = Vector2(32, 28)
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_4flbx"]
+length = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4flbx"]
+radius = 1.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_4flbx")
+
+[node name="BoxCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_sh265")
+
+[node name="SeparationRay1" type="CollisionShape2D" parent="."]
+position = Vector2(-16, 12)
+shape = SubResource("SeparationRayShape2D_4flbx")
+
+[node name="SeparationRay2" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+shape = SubResource("SeparationRayShape2D_4flbx")
+
+[node name="SeparationRay3" type="CollisionShape2D" parent="."]
+position = Vector2(16, 12)
+shape = SubResource("SeparationRayShape2D_4flbx")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.9490196, 0.9529412, 0.68235296, 1)
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[node name="CameraBoundaryDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CameraBoundaryDetector"]
+shape = SubResource("CircleShape2D_4flbx")

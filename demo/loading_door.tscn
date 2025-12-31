@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6f0he4lc4qgx"]
+
+[ext_resource type="Script" uid="uid://rl2cc21dr0dx" path="res://addons/room_toolkit/loading_door.gd" id="1_bmlre"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t0412"]
+size = Vector2(64, 128)
+
+[node name="LoadingDoor" type="Area2D"]
+script = ExtResource("1_bmlre")
+metadata/_custom_type_script = "uid://rl2cc21dr0dx"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_t0412")

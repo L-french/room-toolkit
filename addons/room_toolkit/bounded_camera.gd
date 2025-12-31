@@ -1,5 +1,7 @@
 class_name BoundedCamera
 extends Camera2D
+## A [Camera2D] which may be assigned a [member target] to follow, respecting any [CameraBoundary]
+## which overlaps the [member target].
 
 @export_group("Boundaries")
 @export var active_boundary: CameraBoundary

@@ -1,23 +1,36 @@
 class_name LoadingDoor
 extends Area2D
+## A loading zone capable of spawning a [Room], moving the camera and player to the new room, and
+## signaling its parent [Room] to despawn.
+##
+## To function, a [LoadingDoor] must be the child of a [Room] node. The spawn coordinates are
+## relative to the Door's parent node. So, the correct coordinates may be obtained by aligning the two
+## Rooms next to each other with the origin room at position (0, 0). This is easily done by
+## temporarily adding the destination room to the origin Room's scene in the editor, 
+## aligning the doors, and copying the destination Room's position. A more user-friendly way
+## of doing this is in the works--contributions welcome!
 
 signal room_exited()
 
+## A Resource Path to the destination [Room]
 @export var target_path: String
-@export var player_name: String = "Player"
-@export var transition_delta := Vector2(50, 0)
-@export var transition_time := 0.4
-# TODO: smarter placement of the new room
+# TODO: smarter placement of the new room. Also, add option for global position coordinates
 ## Position of the spawned-in [Room] relative to this door's parent [Room].
 @export var room_spawn_position := Vector2(0, 0)
-@export var tween_easing: Tween.EaseType = Tween.EASE_OUT
-@export var tween_transition: Tween.TransitionType = Tween.TRANS_QUAD
+@export var player_name: String = "Player"
+@export_group("Transition")
+## The ending position of the player after a transition, relative to their starting position.
+@export var transition_delta := Vector2(50, 0)
+@export var transition_time := 0.4
+@export var tween_easing := Tween.EASE_OUT
+@export var tween_transition := Tween.TRANS_QUAD
 
 var loaded_room: Room
 var camera: BoundedCamera
 var ld_active: bool = false
 
-@onready var world := get_node("/root/World")
+# TODO: Set editor icons for the new classes
+@onready var world := get_tree().current_scene
 
 
 func _ready() -> void:
@@ -25,11 +38,10 @@ func _ready() -> void:
 	if current_camera is BoundedCamera:
 		camera = current_camera
 
-	if not target_path.contains("res://"):
-		push_error("Tried to load non-res path: ", target_path)
+	if not target_path.begins_with("res://"):
+		push_error("Tried to load invalid path: ", target_path)
 		return
 	ResourceLoader.load_threaded_request(target_path)
-
 	body_entered.connect(_on_body_entered)
 
 
@@ -43,9 +55,7 @@ func transition_camera(body: Node2D) -> void:
 	var new_boundary: CameraBoundary = null
 	for area in areas:
 		if area.collider is CameraBoundary:
-			if not new_boundary:
-				new_boundary = area.collider
-			elif area.collider.bound_priority > new_boundary.bound_priority:
+			if not new_boundary or area.collider.bound_priority > new_boundary.bound_priority:
 				new_boundary = area.collider
 
 	if new_boundary:
@@ -91,8 +101,9 @@ func _on_body_entered(body: Node2D) -> void:
 		get_parent().set_physics_process(false)
 		body.set_process(false)
 		body.set_physics_process(false)
-		# maybe the instantiation could be done in advance?
-		# or we could defer this whole process
+		# if we run into performance problems, maybe the instantiation could be done in advance?
+		# Or we could add the room to the tree as soon as it's ready, but disable processing
+		# until the transition
 		loaded_room = ResourceLoader.load_threaded_get(target_path).instantiate()
 		loaded_room.position = get_parent().position + room_spawn_position
 		loaded_room.auto_activate = false
