@@ -29,7 +29,6 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="CameraBoundary" type="Area2D" parent="."]
-visible = false
 script = ExtResource("3_035dh")
 metadata/_custom_type_script = "uid://c1240sgdqn338"
 
